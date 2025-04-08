@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODE</title>
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background-color: #181818; /* Softer dark background to reduce strain */
+            color: #f0f0f0; /* Light text color */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Main Container Styling */
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            padding: 40px;
+            background-color: #212121; /* Slightly lighter dark background for depth */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 100%;
+            background: linear-gradient(135deg, #2c2c2c, #181818); /* Dynamic gradient */
+        }
+
+        /* Search Box Styling */
+        .search-box {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            max-width: 550px;
+            padding: 16px;
+            font-size: 18px;
+            border: 2px solid #444;
+            border-radius: 8px;
+            outline: none;
+            background-color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
+
+        .search-box input:focus {
+            border-color: #ff8c42; /* Accent color */
+            box-shadow: 0 0 15px rgba(255, 140, 66, 0.3);
+            background-color: #222; /* Darker on focus */
+        }
+
+        /* Button Row Styling */
+        .button-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 30px;
+            justify-items: center;
+            padding: 20px 0;
+        }
+
+        /* Button Item Styling */
+        .button-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #292929;
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 320px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            background: linear-gradient(135deg, #292929, #333);
+        }
+
+        .button-item:hover {
+            transform: translateY(-12px) scale(1.05); /* Slight zoom effect */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Button Styling */
+        .btn {
+            position: relative;
+            width: 240px;
+            height: 60px;
+            margin: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 10px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ff8c42, #ff5e00); /* Smooth orange gradient */
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ff5e00, #ff8c42);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            visibility: hidden;
+            width: 240px;
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 120%;
+            left: 50%;
+            margin-left: -120px;
+            opacity: 0;
+            transition: opacity 0.5s ease, bottom 0.3s ease;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transform: translateY(10px);
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #444 transparent transparent transparent;
+        }
+
+        .btn:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+            bottom: 140%;
+            transform: translateY(0); /* Smooth tooltip fade-in */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-box input {
+                width: 90%;
+            }
+
+            .button-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .button-item {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button-row {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+        }
+		
+		/* Input Container for Dynamic Inputs */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.input-container input {
+    padding: 14px;
+    width: 100%;
+    font-size: 16px;
+    border: 2px solid #444;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background-color: #333;
+    transition: all 0.3s ease;
+    color: #fff;
+}
+
+.input-container input:focus {
+    border-color: #ff6f61; /* Same color as button hover */
+    box-shadow: 0 0 15px rgba(255, 111, 97, 0.3);
+    background-color: #222;
+}
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Search bar -->
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Search..." onkeyup="searchFunction()">
+        </div>
+
+        <!-- Button and Description Section -->
+        <div class="button-row" id="button-container">
+            <!-- Buttons will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Array of button data (name, description, query, flag, count)
+        const buttonsData = [
+            { 
+                name: "CONC_NAME", 
+                description: "Find Concurrent program ID", 
+                query: `SELECT * FROM fnd_concurrent_programs_tl WHERE user_concurrent_program_name LIKE '%&conc_name%';`, 
+                flag: false, 
+                count: 0 
+            },
+           { 
+                name: "ALTER_SESSION", 
+                description: "Alter Session to US", 
+                query: `ALTER session SET nls_language='AMERICAN';`, 
+                flag: false, 
+                count: 0 
+            },
+             { 
+                name: "ALTER_DATE", 
+                description: "Alter Date", 
+                query: `ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MM-YYYY HH24:MI:SS';`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "CONC_RUN", 
+                description: "Concurrent program run details using program id", 
+                query: `SELECT
+                      a.*,
+	                  b.*   
+                   FROM
+                    fnd_concurrent_requests a JOIN fnd_responsibility_vl b ON a.responsibility_id = b.responsibility_id
+                   WHERE
+                   a.concurrent_program_id = ;`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "FIND_USER_FOR_RESP", 
+                description: "Find user for a Responsibility", 
+                query: `Select b.user_name,b.EMAIL_ADDRESS,B.DESCRIPTION, c.responsibility_name, a.START_DATE, a.END_DATE RES_END_DATE, B.END_dATE USER_END_dATE
+from fnd_user_resp_groups_direct a, fnd_user b, fnd_responsibility_tl c
+where a.user_id = b.user_id
+and a.responsibility_id = c.responsibility_id
+and c.responsibility_name LIKE '%%'
+AND (A.END_DATE IS NULL AND B.END_DATE IS NULL);`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "CHANGE_USER_PASS", 
+                description: "Change EBS password from DB", 
+                query: `set serveroutput on;
+ 
+DECLARE
+    change_pass BOOLEAN := FALSE;
+    user_name   VARCHAR2(40);
+    pass        VARCHAR2(40);
+BEGIN
+        user_name := '';
+    pass := 'welcome123';
+    fnd_global.apps_initialize(0, 20420, 1);
+    change_pass := apps.fnd_user_pkg.changepassword(user_name, pass);
+    IF change_pass THEN
+        dbms_output.put_line('Password was changed');
+    ELSE
+        dbms_output.put_line('Password change failed');
+    END IF;
+    commit;
+END;`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "CONC_DETAILS", 
+                description: "Find Details about concurrent program", 
+                query: `SELECT fcpt.user_concurrent_program_name,
+       fcp.concurrent_program_name,
+       fat.application_name,
+       fet.executable_name,
+       fate.application_name exe_application,
+       flv.meaning           execution_method,
+       fet.execution_file_name,
+       fcp.enable_trace
+  FROM fnd_concurrent_programs_tl fcpt,
+       fnd_concurrent_programs    fcp,
+       fnd_application_tl         fat,
+       fnd_executables            fet,
+       fnd_application_tl         fate,
+       fnd_lookup_values          flv
+ WHERE     fcpt.concurrent_program_id = fcp.concurrent_program_id
+       AND fcpt.application_id = fcp.application_id
+       AND fcp.application_id = fat.application_id
+       AND fcpt.application_id = fat.application_id
+       AND fcp.executable_id = fet.executable_id
+       AND fcp.executable_application_id = fet.application_id
+       AND fet.application_id = fate.application_id
+       AND flv.lookup_type = 'CP_EXECUTION_METHOD_CODE'
+       AND flv.lookup_code = fet.execution_method_code
+       AND fcpt.user_concurrent_program_name Like '%%';`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "ALL_SOURCE", 
+                description: "Find in All Source", 
+                query: `SELECT * FROM ALL_SOURCE WHERE UPPER(TEXT) LIKE '%&text%';`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "ALL_OBJECTS", 
+                description: "Find in All Objects", 
+                query: `SELECT * FROM ALL_OBJECTS WHERE UPPER(OBJECT_NAME) LIKE '%&obj_name%';`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "DBA_SOURCE", 
+                description: "Find in DBA Source", 
+                query: `SELECT name, line, text
+FROM dba_source
+WHERE UPPER(text) LIKE UPPER('%%');`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "DBA_OBJECTS", 
+                description: "Find in DBA Objects", 
+                query: `SELECT *
+FROM dba_objects
+WHERE UPPER(object_name) LIKE UPPER('%%');`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "DBMS_OUTPUT", 
+                description: "DBMS Output code", 
+                query: `DBMS_OUTPUT.PUT_LINE('Number of rows : ' || TO_CHAR(SQL%ROWCOUNT));`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "FND_LOG", 
+                description: "FND_LOG", 
+                query: `FND_FILE.PUT_LINE(FND_FILE.LOG, 'Number of rows : ' || TO_CHAR(SQL%ROWCOUNT));`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "FND_OUPUT", 
+                description: "FND_OUPUT", 
+                query: `FND_FILE.PUT_LINE(FND_FILE.OUTPUT, 'Number of rows : ' || TO_CHAR(l_rowcount));`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "FORM_FUNCTION_ID", 
+                description: "FORM FUNCTION ID USING FMB NAME", 
+                query: `SELECT function_id, USER_FUNCTION_NAME, FUNCTION_NAME, form_name
+FROM fnd_form_functions_vl fff, fnd_form ff
+WHERE fff.form_id = ff.form_id
+AND form_name LIKE '%&FORM_NAME%';`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "FORM RESP&NAV", 
+                description: "FORM RESPONSIBILITY AND NAVIGATION USING FORM FUNCTION ID", 
+                query: `SELECT responsibility_name, menu_structure.PATH navigation
+FROM (
+ SELECT LEVEL padding,
+         menu_id,
+         RTRIM (reverse (SYS_CONNECT_BY_PATH (reverse (prompt), '>')), '>') PATH,
+         (SELECT menu_name FROM fnd_menus fm WHERE fm.menu_id = fme.menu_id) menu_name,
+         entry_sequence,
+         sub_menu_id,
+         (SELECT menu_name FROM fnd_menus fm WHERE fm.menu_id = fme.sub_menu_id) submenu_name,
+         function_id
+ FROM fnd_menu_entries_vl fme
+ CONNECT BY sub_menu_id = PRIOR menu_id 
+ START WITH function_id = '&function_id'  
+ ORDER SIBLINGS BY entry_sequence
+) menu_structure,
+fnd_responsibility_vl fr
+WHERE menu_structure.menu_id = fr.menu_id
+order by 1;`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "PROFILE_VALUE", 
+                description: "TO FIND PROFILE VALUE", 
+                query: `SELECT USER_PROFILE_OPTION_NAME, NAME, LEVEL_SET, CONTEXT, 
+       VALUE, LAST_UPDATE_DATE, LAST_UPDATED_BY,PROFILE_FROM
+FROM (
+SELECT PO.USER_PROFILE_OPTION_NAME,
+       PO.PROFILE_OPTION_NAME NAME,
+       POV.LEVEL_ID,
+       DECODE(POV.LEVEL_ID,
+         10001, 'SITE',
+         10002, 'APPLICATION',
+         10003, 'RESPONSIBILITY',
+         10004, 'USER',
+         10005, 'SERVER',
+         10006, 'ORGANIZATION',
+         10007, 'SERVRESP',
+         'UNDEFINED') LEVEL_SET,
+       DECODE(TO_CHAR(POV.LEVEL_ID),
+         '10001', '',
+         '10002', APP.APPLICATION_SHORT_NAME,
+         '10003', RSP.RESPONSIBILITY_KEY,
+         '10004', USR.USER_NAME,
+         '10005', SVR.NODE_NAME,
+         '10006', ORG.NAME,
+         '10007', (SELECT N.NODE_NAME FROM FND_NODES N
+                   WHERE N.NODE_ID=LEVEL_VALUE2) ||'/'||
+                   (DECODE(POV.LEVEL_VALUE, -1,'DEFAULT',
+                    (SELECT RESPONSIBILITY_KEY
+                     FROM FND_RESPONSIBILITY
+                     WHERE RESPONSIBILITY_ID = LEVEL_VALUE))),
+         POV.LEVEL_ID) CONTEXT,
+       POV.PROFILE_OPTION_VALUE VALUE,
+       POV.LAST_UPDATE_DATE,
+       USRLST.USER_NAME LAST_UPDATED_BY,
+       'SYS PROFILE' PROFILE_FROM
+FROM FND_PROFILE_OPTIONS_VL PO,
+     FND_PROFILE_OPTION_VALUES POV,
+     FND_USER USR,
+     FND_APPLICATION APP,
+     FND_RESPONSIBILITY_VL RSP,
+     FND_USER USRLST,
+     FND_NODES SVR,
+     HR_OPERATING_UNITS ORG
+WHERE USRLST.USER_ID = POV.LAST_UPDATED_BY 
+ AND POV.APPLICATION_ID = PO.APPLICATION_ID
+ AND POV.PROFILE_OPTION_ID = PO.PROFILE_OPTION_ID
+ AND USR.USER_ID(+) = POV.LEVEL_VALUE
+ AND RSP.APPLICATION_ID(+) = POV.LEVEL_VALUE_APPLICATION_ID
+ AND RSP.RESPONSIBILITY_ID(+) = POV.LEVEL_VALUE
+ AND APP.APPLICATION_ID(+) = POV.LEVEL_VALUE
+ AND SVR.NODE_ID(+) = POV.LEVEL_VALUE
+ AND ORG.ORGANIZATION_ID(+) = POV.LEVEL_VALUE
+
+UNION ALL
+
+SELECT USER_PROFILE_OPTION_NAME, PROFILE_OPTION_NAME NAME,
+       NULL LEVEL_ID,
+       'NOT SET' LEVEL_SET,
+       NULL CONTEXT,
+       NULL VALUE,
+       NULL LAST_UPDATE_DATE,
+       NULL LAST_UPDATED_BY,
+       'USER PROFILE' PROFILE_FROM
+FROM FND_PROFILE_OPTIONS_VL P
+WHERE NOT EXISTS (SELECT 'X' FROM FND_PROFILE_OPTION_VALUES OV
+                  WHERE P.PROFILE_OPTION_ID = OV.PROFILE_OPTION_ID)
+)
+WHERE UPPER(USER_PROFILE_OPTION_NAME) LIKE UPPER('%%')
+ORDER BY NAME, LEVEL_ID, VALUE;`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "REQUEST SET RESP", 
+                description: "TO FIND REQUEST SET RESPONSIBILITY", 
+                query: `SELECT UNIQUE frt.responsibility_name, frg.request_group_name,
+              frsv.user_request_set_name
+         FROM fnd_responsibility fr,
+              fnd_responsibility_tl frt,
+              fnd_request_groups frg,
+              fnd_request_group_units frgu,
+              fnd_request_sets_vl frsv
+        WHERE fr.request_group_id = frg.request_group_id
+          AND fr.responsibility_id = frt.responsibility_id
+          AND frg.request_group_id = frgu.request_group_id
+          AND frgu.request_unit_id = frsv.request_set_id
+         -- AND frsv.request_set_name LIKE '%';
+          AND upper(frsv.user_request_set_name) LIKE upper('%%');
+        `, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "ORG", 
+                description: "TO FIND HR_OPERATING_UNITS ,ORG_ORGANIZATION_DEFINITIONS", 
+                query: `SELECT
+    B.NAME,
+    B.ORGANIZATION_ID,
+    A.ORGANIZATION_ID,
+    A.ORGANIZATION_NAME,
+    A.ORGANIZATION_CODE
+FROM
+    ORG_ORGANIZATION_DEFINITIONS A,
+    HR_OPERATING_UNITS           B
+WHERE
+    1 = 1
+    AND A.OPERATING_UNIT = B.ORGANIZATION_ID
+  --AND B.ORGANIZATION_ID = '&ORG_ID'
+    AND UPPER(B.NAME) LIKE UPPER('%&ORG_NAME%')
+    ORDER BY 2,3,5;`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "REQUEST SET DETAIL", 
+                description: "To Find Request Set Details", 
+                query: `SELECT
+    RS.USER_REQUEST_SET_NAME        REQUEST_SET,
+    RSS.DISPLAY_SEQUENCE            SEQ,
+    CP.USER_CONCURRENT_PROGRAM_NAME CONCURRENT_PROGRAM,
+    E.EXECUTABLE_NAME,
+    E.EXECUTION_FILE_NAME,
+    LV.MEANING                      FILE_TYPE,
+    FAT.APPLICATION_NAME            APPLICATION_NAME
+FROM
+    FND_REQUEST_SETS_VL        RS,
+    FND_REQ_SET_STAGES_FORM_V  RSS,
+    FND_REQUEST_SET_PROGRAMS   RSP,
+    FND_CONCURRENT_PROGRAMS_VL CP,
+    FND_EXECUTABLES            E,
+    FND_LOOKUP_VALUES          LV,
+    FND_APPLICATION_TL         FAT
+WHERE
+        1 = 1
+    AND RS.APPLICATION_ID = RSS.SET_APPLICATION_ID
+    AND RS.REQUEST_SET_ID = RSS.REQUEST_SET_ID
+    AND RS.USER_REQUEST_SET_NAME LIKE '%%'
+    AND E.APPLICATION_ID = FAT.APPLICATION_ID
+    AND RSS.SET_APPLICATION_ID = RSP.SET_APPLICATION_ID
+    AND RSS.REQUEST_SET_ID = RSP.REQUEST_SET_ID
+    AND RSS.REQUEST_SET_STAGE_ID = RSP.REQUEST_SET_STAGE_ID
+    AND RSP.PROGRAM_APPLICATION_ID = CP.APPLICATION_ID
+    AND RSP.CONCURRENT_PROGRAM_ID = CP.CONCURRENT_PROGRAM_ID
+    AND CP.EXECUTABLE_ID = E.EXECUTABLE_ID
+    AND CP.EXECUTABLE_APPLICATION_ID = E.APPLICATION_ID
+    AND LV.LOOKUP_TYPE = 'CP_EXECUTION_METHOD_CODE'
+    AND LV.LOOKUP_CODE = E.EXECUTION_METHOD_CODE
+    AND LV.LANGUAGE = 'US'
+    AND FAT.LANGUAGE = 'US'
+    AND RS.END_DATE_ACTIVE IS NULL
+ORDER BY
+    1,
+    2;`, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "MO_POLICY", 
+                description: "MO GLOBAL ORG", 
+                query: `BEGIN MO_GLOBAL.SET_POLICY_CONTEXT('S',91); END; `, 
+                flag: false, 
+                count: 0 
+            },
+			{ 
+                name: "CREATE_DIR@", 
+                description: "To create DIR", 
+                query: `mkdir :input1 && cd :input1 && mkdir BKP MODIFIED && echo. > BKP\\:input2 && echo. > MODIFIED\\:input2`, 
+                flag: true, 
+                count: 2 
+            },
+			{ 
+                name: "FIND_RESP@", 
+                description: "Find responsibility using Conc name", 
+                query: `SELECT DISTINCT fcpl.user_concurrent_program_name,
+                fcp.concurrent_program_name,
+                fapp.application_name,
+                frg.request_group_name,
+                fnrtl.responsibility_name
+  FROM apps.fnd_request_groups         frg,
+       apps.fnd_application_tl         fapp,
+       apps.fnd_request_group_units    frgu,
+       apps.fnd_concurrent_programs    fcp,
+       apps.fnd_concurrent_programs_tl fcpl,
+       apps.fnd_responsibility         fnr,
+       apps.fnd_responsibility_tl      fnrtl
+WHERE     frg.application_id = fapp.application_id
+       AND frg.application_id = frgu.application_id
+       AND frg.request_group_id = frgu.request_group_id
+       AND frg.request_group_id = fnr.request_group_id
+       AND fnr.responsibility_id = fnrtl.responsibility_id
+       AND frgu.request_unit_id = fcp.concurrent_program_id
+       AND frgu.unit_application_id = fcp.application_id
+       AND fcp.concurrent_program_id = fcpl.concurrent_program_id
+       AND fcpl.user_concurrent_program_name LIKE
+              '%:input1%'
+       AND fnrtl.LANGUAGE = 'US'
+       AND fapp.LANGUAGE = 'US';`, 
+                flag: true, 
+                count: 1 
+            }
+			/*,
+			{ 
+                name: "GENERATE_TSE_XML", 
+                description: "To create xml for TSE VPN", 
+                query: `mkdir :input1 && cd :input1 && mkdir BKP MODIFIED && echo. > BKP\\:input2 && echo. > MODIFIED\\:input2 :input3`, 
+                flag: true, 
+                count: 2 
+            }  */
+			];
+
+// Function to generate buttons dynamically
+function generateButtons() {
+    const container = document.getElementById('button-container');
+
+    // Clear the container before adding new buttons
+    container.innerHTML = '';
+
+    // Separate normal buttons and input button containers
+    const normalButtons = buttonsData.filter(button => !button.flag);
+    const inputButtons = buttonsData.filter(button => button.flag);
+
+    // Sort the input-based buttons by their count in ascending order
+    inputButtons.sort((a, b) => a.count - b.count);
+
+    // Combine them in the desired order (Normal buttons first, then input buttons sorted by count)
+    const sortedButtons = [...normalButtons, ...inputButtons];
+
+    // Loop through the sorted buttons data and create HTML for each button
+    sortedButtons.forEach(button => {
+        const buttonItem = document.createElement('div');
+        buttonItem.classList.add('button-item');
+
+        const buttonElement = document.createElement('button');
+        buttonElement.classList.add('btn');
+        buttonElement.textContent = button.name;
+
+        // Add tooltip using the title attribute
+       // buttonElement.setAttribute('title', button.description); // Tooltip here
+		        // Add tooltip using the title attribute (as tooltip content)
+        const tooltip = document.createElement('span');
+        tooltip.classList.add('tooltip');
+        tooltip.textContent = button.description;  // Tooltip content is the description
+        buttonElement.appendChild(tooltip);  // Append the tooltip to the button element
+
+
+        // Add input fields if necessary
+        if (button.flag) {
+            const inputContainer = document.createElement('div');
+            inputContainer.classList.add('input-container');
+
+            // Dynamically create input fields based on the count
+            for (let i = 0; i < button.count; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = `Input ${i + 1}`;
+                inputContainer.appendChild(input);
+            }
+
+            // Append the input container to the buttonItem
+            buttonItem.appendChild(inputContainer);
+        }
+
+        buttonElement.addEventListener('click', () => {
+            let query = button.query;
+            if (button.flag) {
+                // If flag is true, replace placeholders with input values
+                const inputs = buttonItem.querySelectorAll('input');
+                const values = Array.from(inputs).map(input => input.value);
+                query = createDynamicQuery(button.query, values);
+            }
+            copyToClipboard(query);
+        });
+
+        // Append button to buttonItem
+        buttonItem.appendChild(buttonElement);
+
+        // Append buttonItem to the container
+        container.appendChild(buttonItem);
+    });
+}
+
+
+ // Function to create a dynamic query based on input values (value-based)
+function createDynamicQuery(queryTemplate, values) {
+    // Replace placeholders in the query template with values from the inputs
+    values.forEach((value, index) => {
+        // Create a named placeholder based on the index (e.g., :input1, :input2)
+        const placeholder = `:input${index + 1}`;
+        // Replace the named placeholder with the actual value
+        queryTemplate = queryTemplate.replace(new RegExp(placeholder, 'g'), value);
+    });
+    return queryTemplate;
+}
+
+        // Function to copy the query to clipboard
+        function copyToClipboard(query) {
+            const textArea = document.createElement('textarea');
+            textArea.value = query;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+           
+        }
+
+        // Call generateButtons function to display the buttons when the page loads
+        generateButtons();
+
+        // Search functionality
+        function searchFunction() {
+            const input = document.getElementById('search');
+            const filter = input.value.toUpperCase();
+            const container = document.getElementById("button-container");
+            const items = container.getElementsByClassName('button-item');
+
+            for (let i = 0; i < items.length; i++) {
+                const button = items[i].getElementsByClassName("btn")[0];
+                const description = items[i].getElementsByClassName("description")[0];
+                const txtValue = button.textContent || button.innerText || description.textContent || description.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
