@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TNSTC PNR Status Check</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        font-family: 'Inter', sans-serif;
+        background-color: #0d1117;
+        color: #e6edf3;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 24px 16px;
+    }
+
+    h2 {
+        color: #58a6ff;
+        font-size: 22px;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    #pnr-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        gap: 16px;
+    }
+
+    .pnr-form {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 10px;
+        width: 100%;
+        padding: 16px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .pnr-form:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+    }
+
+    .pnr-form button {
+        width: 100%;
+        background: linear-gradient(135deg, #2383e2, #1f6feb);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .pnr-form button:hover {
+        background: linear-gradient(135deg, #1b5bd3, #1f6feb);
+    }
+
+    @media (max-width: 480px) {
+        h2 {
+            font-size: 20px;
+        }
+
+        .pnr-form {
+            padding: 14px;
+        }
+
+        .pnr-form button {
+            font-size: 14px;
+            padding: 10px 16px;
+        }
+    }
+</style>
+
+
+
+
+
+</head>
+<body>
+    <h2>Check TNSTC PNR Status</h2>
+    <div id="pnr-container"></div>
+
+    <script>
+        // Sample data including 'dated'
+        const pnrData = [
+            { pnr: "T66513253", mobile: "9345836291", data: "Salem to Bangalore", dated: "2025-05-18" }
+        // { pnr: "T77234567", mobile: "9876543210", data: "Bangalore to Salem", dated: "2025-05-10" },
+        //    { pnr: "T89012345", mobile: "9123456780", data: "Erode to Coimbator	e", dated: "2025-06-12" }  
+        ];
+
+        // Sort by 'data' field alphabetically
+        pnrData.sort((a, b) => new Date(a.dated) - new Date(b.dated));
+
+
+        const container = document.getElementById('pnr-container');
+
+        pnrData.forEach(({ pnr, mobile, data, dated }) => {
+            const form = document.createElement('form');
+            form.action = "https://www.tnstc.in/OTRSOnline/manageALLPNRStatus.do";
+            form.method = "post";
+            form.target = "_blank";
+            form.className = "pnr-form";
+
+            form.innerHTML = `
+                <input type="hidden" name="hiddenPNRNo" value="${pnr}">
+                <input type="hidden" name="hiddenMobileNumber" value="${mobile}">
+                <input type="hidden" name="hiddenAction" value="GetDetails">
+                <button type="submit">${data} — ${dated}</button>
+            `;
+
+            container.appendChild(form);
+        });
+    </script>
+</body>
+</html>
